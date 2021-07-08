@@ -17,8 +17,8 @@ Qualquer caracter na palavra que não seja uma letra deve ser desconsiderado.
 
 
 from string import ascii_letters
-from ex1 import trace_multiples, sum_multiples
-from ex2 import happy_number
+from exercicios.ex1 import trace_multiples
+from exercicios.ex2 import happy_number
 
 
 def is_prime(num):
@@ -45,11 +45,7 @@ def text_info(text):
         info = {
             'is_prime': is_prime(num),
             'happy_number': happy_number(num),
-            'multiple3_or_5': is_div_by_3_or_5,
+            'multipl3_5': is_div_by_3_or_5,
         }
         result.append(info)
     return result
-
-
-if __name__ == '__main__':
-    for i in text_info('Back to the future'): print(i)
