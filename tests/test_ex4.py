@@ -1,3 +1,6 @@
+import sys
+sys.path.append('.')
+sys.path.append('..')
 from exercicios.ex4.produto import Produto
 from exercicios.ex4.usuario import Usuario
 
@@ -31,12 +34,9 @@ def pessoas_mercado():
             Produto('Sorvete Haagen Daz', 16.33, 1.05)
         ),
     ])
+    return Elias, Sheila
 
 
 if __name__ == '__main__':
-    mostra = lambda p: '{}: {:.2f}'.format(
-        p.nome,
-        p.valor_pedido()
-    )
-    resumo = [mostra(p) for p in pessoas_mercado()]
-    print('\n'.join(resumo))
+    print('-'*50)
+    for p in pessoas_mercado(): p.valor_pedido(True)

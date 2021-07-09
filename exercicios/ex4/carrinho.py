@@ -1,5 +1,5 @@
 from collections import Counter
-from produto import Produto
+from exercicios.ex4.produto import Produto
 
 class Carrinho:
     def __init__(self):
@@ -26,7 +26,7 @@ class Carrinho:
             lista.append((produto,quantidade))
         self.lista_produtos = lista
 
-    def calcula_total(self):
+    def valor_total(self):
         self.obtem_lista_produtos()
         total = 0
         for produto, quantidade in self.lista_produtos:

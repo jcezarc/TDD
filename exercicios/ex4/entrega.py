@@ -24,15 +24,15 @@ class Correios(ServicoEntregas):
         SP_Interior = cidade in range(12, 19)
         SP_Litoral = cidade == 11
         if SP_Capital:
-            taxa = 27.00
+            taxa = 4
             if zona < 5:
-                taxa -= 3.5
+                taxa -= 0.5
             if distrito > 100:
-                taxa += 6.00
+                taxa += 1
         elif SP_Interior:
-            taxa = 48
+            taxa = 5
         elif SP_Litoral:
-            taxa = 39.10
+            taxa = 6
         return taxa
 
 
@@ -47,4 +47,4 @@ class API_Externa(ServicoEntregas):
 
     def custo_por_regiao(self, CEP):
         distancia = int(self.origem()) - int(CEP)
-        return abs(distancia) / 1000000
+        return abs(distancia) / 4000000
