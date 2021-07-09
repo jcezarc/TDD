@@ -13,9 +13,24 @@ class Carrinho:
         self.lista_produtos = []
         self.rascunho[produto.nome] += quantidade
 
-    def remove_produto(self, produto):
+    def reduz_quantidade(self, nome_produto, quantidade=1):
+        quantidade = self.rascunho[nome_produto] - quantidade
+        if quantidade < 1:
+            self.rascunho.pop(nome_produto)
+        else:
+            self.rascunho[nome_produto] = quantidade
         self.lista_produtos = []
-        return self.rascunho.pop(produto.nome)
+
+    def retira_produto(self, nome_produto):
+        """
+        --- Não confundir com `reduz_quantidade`: ---
+        Aqui o produto é tirado para FORA do carrinho
+        """
+        self.lista_produtos = []
+        return self.rascunho.pop(nome_produto)
+
+    def unidades(self):
+        return len(self.rascunho)
 
     def obtem_lista_produtos(self):
         if self.lista_produtos:

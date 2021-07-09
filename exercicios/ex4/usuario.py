@@ -7,6 +7,7 @@ class Usuario:
         self.CEP = CEP
         self.carrinho = None
         self.log = ''
+        self.nome_serv_entrega = ''
 
     def faz_compra(self, produtos_para_comprar):
         '''
@@ -25,14 +26,15 @@ class Usuario:
         else:
             entrega = Correios()
         frete = entrega.valor_frete(self)
+        self.nome_serv_entrega = entrega.__class__.__name__
         self.log = '{}: {} + Frete {}: {} = {}'.format(
             self.nome[:13],
             FORMAT_FLOAT(total),
-            entrega.__class__.__name__.ljust(12),
+            self.nome_serv_entrega.ljust(12),
             FORMAT_FLOAT(frete),
             FORMAT_FLOAT(total + frete),
         )
-        return total + frete
+        return total, frete
 
     def emite_relatorio(self, detalhado=False):
         self.soma_pedido()
