@@ -23,8 +23,9 @@ class Carrinho:
 
     def retira_produto(self, nome_produto):
         """
-        --- Não confundir com `reduz_quantidade`: ---
-        Aqui o produto é tirado para FORA do carrinho
+        Não confundir com `reduz_quantidade`:
+         Aqui, todos os itens desse tipo de
+        produto saõ removidos do carrinho!!
         """
         self.lista_produtos = []
         return self.rascunho.pop(nome_produto)
