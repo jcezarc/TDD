@@ -38,5 +38,5 @@ def pessoas_mercado():
 
 
 if __name__ == '__main__':
-    print('-'*50)
-    for p in pessoas_mercado(): p.valor_pedido(True)
+    for p in pessoas_mercado():
+        p.emite_relatorio(True)

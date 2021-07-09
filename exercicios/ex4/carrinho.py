@@ -1,10 +1,13 @@
 from collections import Counter
 from exercicios.ex4.produto import Produto
 
+FORMAT_FLOAT = lambda v: '{:.2f}'.format(v).rjust(10)
+
 class Carrinho:
     def __init__(self):
         self.rascunho = Counter()
         self.lista_produtos = []
+        self.log = ''
 
     def inclui_produto(self, produto, quantidade=1):
         self.lista_produtos = []
@@ -29,7 +32,14 @@ class Carrinho:
     def valor_total(self):
         self.obtem_lista_produtos()
         total = 0
+        self.log = ''
         for produto, quantidade in self.lista_produtos:
+            self.log += '\n\t{}: {} x {} = {}'.format(
+                produto.nome[:30].ljust(30),
+                FORMAT_FLOAT(produto.valor),
+                str(quantidade).rjust(5),
+                FORMAT_FLOAT(produto.valor * quantidade)
+            )
             total += produto.valor * quantidade
         return total
 
