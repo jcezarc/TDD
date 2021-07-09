@@ -5,7 +5,7 @@ from exercicios.ex4.produto import Produto
 from exercicios.ex4.usuario import Usuario
 from exercicios.ex4.carrinho import Carrinho
 
-DADOS_CHOCOLATE_LINDT = {
+CHOCOLATE_BARRA_LINDT = {
     'nome': 'Chocolate barra 250g Lindit',
     'valor': 11.27,
     'dimensoes': 1.05,
@@ -21,14 +21,14 @@ def pessoas_mercado():
         ),
         (
             4,
-            Produto(**DADOS_CHOCOLATE_LINDT)
+            Produto(**CHOCOLATE_BARRA_LINDT)
         ),
     ])
     Sheila = Usuario('Sheila Kely Jota', '09542101')
     Sheila.faz_compra([
         (
             1,
-            Produto(**DADOS_CHOCOLATE_LINDT)
+            Produto(**CHOCOLATE_BARRA_LINDT)
         ),
         (
             3,
@@ -57,17 +57,17 @@ def test_carrinho_prod_duplicado():
     qtd_esperada = 3
     for _ in range(qtd_esperada):
         carrinho.inclui_produto(
-            Produto(**DADOS_CHOCOLATE_LINDT)
+            Produto(**CHOCOLATE_BARRA_LINDT)
         )
-    quantidade = carrinho.retira_produto(DADOS_CHOCOLATE_LINDT['nome'])
+    quantidade = carrinho.retira_produto(CHOCOLATE_BARRA_LINDT['nome'])
     assert quantidade == qtd_esperada
 
 def test_zerar_quantidade():
     carrinho = Carrinho()
     carrinho.inclui_produto(
-        Produto(**DADOS_CHOCOLATE_LINDT)
+        Produto(**CHOCOLATE_BARRA_LINDT)
     )
-    carrinho.reduz_quantidade(DADOS_CHOCOLATE_LINDT['nome'])
+    carrinho.reduz_quantidade(CHOCOLATE_BARRA_LINDT['nome'])
     assert carrinho.unidades() == 0
 
 def test_volume():
@@ -77,12 +77,24 @@ def test_volume():
         volume = pessoa.carrinho.volume_para_transportar()
         assert volume == esperado
 
+def test_reajuste_preco():
+    Sheila = pessoas_mercado()[1]
+    nome, valor, dimensoes = CHOCOLATE_BARRA_LINDT.values()
+    valor = 10.4
+    Sheila.faz_compra([
+        (1, Produto(nome, valor, dimensoes))
+    ])
+    total = Sheila.soma_pedido()[0]
+    assert total > 69.78 and total < 69.80
+
+
 EX4_TEST_CASES = [
     test_frete,
     test_carrinho_vazio,
     test_carrinho_prod_duplicado,
     test_zerar_quantidade,
-    test_volume
+    test_volume,
+    test_reajuste_preco
 ]
 
 
