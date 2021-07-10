@@ -1,7 +1,10 @@
 import sys
 sys.path.append('.')
 sys.path.append('..')
-from exercicios.ex4.produto import Produto
+from exercicios.ex4.produto import (
+    Produto, ERRO_NOME_EM_BRANCO,
+    ERRO_VALOR_INVALIDO, ERRO_PRO_SEM_VOLUME
+)
 from exercicios.ex4.usuario import Usuario
 from exercicios.ex4.carrinho import Carrinho
 
@@ -87,6 +90,18 @@ def test_reajuste_preco():
     total = Sheila.soma_pedido()[0]
     assert total > 69.78 and total < 69.80
 
+def test_produto_em_branco():
+    produto = Produto('', 0, 0)
+    assert produto.erro == ERRO_NOME_EM_BRANCO
+
+def test_produto_valor_invalido():
+    produto = Produto('Sem valor', 0, 0)
+    assert produto.erro == ERRO_VALOR_INVALIDO
+
+def test_produto_sem_volume():
+    produto = Produto('Peso negativo', 2.5, -3)
+    assert produto.erro == ERRO_PRO_SEM_VOLUME
+
 
 EX4_TEST_CASES = [
     test_frete,
@@ -94,7 +109,10 @@ EX4_TEST_CASES = [
     test_carrinho_prod_duplicado,
     test_zerar_quantidade,
     test_volume,
-    test_reajuste_preco
+    test_reajuste_preco,
+    test_produto_em_branco,
+    test_produto_valor_invalido,
+    test_produto_sem_volume,
 ]
 
 
