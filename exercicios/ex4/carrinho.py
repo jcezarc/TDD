@@ -9,28 +9,27 @@ class Carrinho:
         self.lista_produtos = []
         self.log = ''
 
-    def inclui_produto(self, produto, quantidade=1):
-        self.lista_produtos = []
-        self.rascunho[produto.nome] += quantidade
-
-    def reduz_quantidade(self, nome_produto, quantidade=1):
-        quantidade = self.rascunho[nome_produto] - quantidade
+    def incrementa_produto(self, produto, quantidade=1):
+        if isinstance(produto, str):
+            nome_produto = produto
+        else:
+            nome_produto = produto.nome
+        quantidade = self.rascunho[nome_produto] + quantidade
         if quantidade < 1:
-            self.rascunho.pop(nome_produto)
+            self.rascunho.pop(nome_produto, None)
         else:
             self.rascunho[nome_produto] = quantidade
         self.lista_produtos = []
 
-    def retira_produto(self, nome_produto):
-        """
-        Não confundir com `reduz_quantidade`:
-         Aqui, todos os itens desse tipo de
-        produto saõ removidos do carrinho!!
-        """
+    def extrai_produto(self, nome_produto):
         self.lista_produtos = []
         return self.rascunho.pop(nome_produto)
 
     def unidades(self):
+        """
+        Quantos tipos de produtos
+        diferentes tem no carrinho
+        """
         return len(self.rascunho)
 
     def obtem_lista_produtos(self):

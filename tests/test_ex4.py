@@ -5,7 +5,9 @@ from exercicios.ex4.produto import (
     Produto, ERRO_NOME_EM_BRANCO,
     ERRO_VALOR_INVALIDO, ERRO_PRO_SEM_VOLUME
 )
-from exercicios.ex4.usuario import Usuario
+from exercicios.ex4.usuario import (
+    Usuario, ErroCEPInvalido
+)
 from exercicios.ex4.carrinho import Carrinho
 
 CHOCOLATE_BARRA_LINDT = {
@@ -59,18 +61,21 @@ def test_carrinho_prod_duplicado():
     carrinho = Carrinho()
     qtd_esperada = 3
     for _ in range(qtd_esperada):
-        carrinho.inclui_produto(
+        carrinho.incrementa_produto(
             Produto(**CHOCOLATE_BARRA_LINDT)
         )
-    quantidade = carrinho.retira_produto(CHOCOLATE_BARRA_LINDT['nome'])
+    quantidade = carrinho.extrai_produto(CHOCOLATE_BARRA_LINDT['nome'])
     assert quantidade == qtd_esperada
 
 def test_zerar_quantidade():
     carrinho = Carrinho()
-    carrinho.inclui_produto(
+    carrinho.incrementa_produto(
         Produto(**CHOCOLATE_BARRA_LINDT)
     )
-    carrinho.reduz_quantidade(CHOCOLATE_BARRA_LINDT['nome'])
+    carrinho.incrementa_produto(
+        CHOCOLATE_BARRA_LINDT['nome'],
+        -1 # -- valor negativo reduz a quantidade
+    )
     assert carrinho.unidades() == 0
 
 def test_volume():
@@ -92,15 +97,23 @@ def test_reajuste_preco():
 
 def test_produto_em_branco():
     produto = Produto('', 0, 0)
-    assert produto.erro == ERRO_NOME_EM_BRANCO
+    assert Produto.erro == ERRO_NOME_EM_BRANCO
 
 def test_produto_valor_invalido():
     produto = Produto('Sem valor', 0, 0)
-    assert produto.erro == ERRO_VALOR_INVALIDO
+    assert Produto.erro == ERRO_VALOR_INVALIDO
 
 def test_produto_sem_volume():
     produto = Produto('Peso negativo', 2.5, -3)
-    assert produto.erro == ERRO_PRO_SEM_VOLUME
+    assert Produto.erro == ERRO_PRO_SEM_VOLUME
+
+def test_CEP_invalido():
+    erro_previsto = False
+    try:
+        Usuario(CEP='xxx ', nome='')
+    except ErroCEPInvalido:
+        erro_previsto = True
+    assert erro_previsto
 
 
 EX4_TEST_CASES = [
@@ -113,6 +126,7 @@ EX4_TEST_CASES = [
     test_produto_em_branco,
     test_produto_valor_invalido,
     test_produto_sem_volume,
+    test_CEP_invalido,
 ]
 
 

@@ -4,33 +4,34 @@ ERRO_PRO_SEM_VOLUME = 3
 
 class Produto:
     catalogo = {}
+    erro = 0
     def __new__(cls, nome, valor, dimensoes):
         '''
         Produto
         :dimensoes -- Um fator hipotético para fins de transporte
                     (ver serviço de entregas em `entregas.py`)
         '''
+        Produto.erro = Produto.valida(nome, valor, dimensoes)
+        if Produto.erro:
+            return None
         obj = Produto.localiza(nome)
         if not obj:
             obj = object.__new__(cls)
             Produto.catalogo[nome] = obj
-        obj.valida(nome, valor, dimensoes)
+        obj.nome = nome
+        obj.valor = valor
+        obj.dimensoes = dimensoes
         return obj
 
-    def valida(self, nome, valor, dimensoes):
+    @staticmethod
+    def valida(nome, valor, dimensoes):
         if not nome.strip():
-            self.erro = ERRO_NOME_EM_BRANCO
-            return
-        self.nome = nome
+            return ERRO_NOME_EM_BRANCO
         if valor <= 0:
-            self.erro = ERRO_VALOR_INVALIDO
-            return
-        self.valor = valor
+            return ERRO_VALOR_INVALIDO
         if dimensoes < 1:
-            self.erro = ERRO_PRO_SEM_VOLUME
-            return
-        self.dimensoes = dimensoes
-        self.erro = 0
+            return ERRO_PRO_SEM_VOLUME
+        return 0
 
     @classmethod
     def localiza(cls, busca):
