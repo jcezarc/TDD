@@ -30,7 +30,7 @@ class Usuario:
         if not self.carrinho:
             self.carrinho = Carrinho()
         for quantidade, produto in produtos_para_comprar:
-            self.carrinho.incrementa_produto(produto, quantidade)
+            self.carrinho.incrementa_item(produto, quantidade)
 
     def soma_pedido(self):
         total = self.carrinho.valor_total()

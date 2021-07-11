@@ -8,7 +8,9 @@ from exercicios.ex4.produto import (
 from exercicios.ex4.usuario import (
     Usuario, ErroCEPInvalido
 )
-from exercicios.ex4.carrinho import Carrinho
+from exercicios.ex4.carrinho import (
+    Carrinho, ErroItemNaoEncontrado
+)
 
 CHOCOLATE_BARRA_LINDT = {
     'nome': 'Chocolate barra 250g Lindit',
@@ -55,28 +57,38 @@ def test_frete():
 
 def test_carrinho_vazio():
     carrinho = Carrinho()
-    assert carrinho.valor_total() == 0
+    assert carrinho.vazio()
 
 def test_carrinho_prod_duplicado():
     carrinho = Carrinho()
     qtd_esperada = 3
-    for _ in range(qtd_esperada):
-        carrinho.incrementa_produto(
-            Produto(**CHOCOLATE_BARRA_LINDT)
-        )
-    quantidade = carrinho.extrai_produto(CHOCOLATE_BARRA_LINDT['nome'])
+    produto_teste = Produto(**CHOCOLATE_BARRA_LINDT)
+    for _ in range(qtd_esperada):        
+        carrinho.incrementa_item(produto_teste)
+    quantidade = carrinho.quantidade_produto(CHOCOLATE_BARRA_LINDT['nome'])
     assert quantidade == qtd_esperada
 
 def test_zerar_quantidade():
     carrinho = Carrinho()
-    carrinho.incrementa_produto(
+    carrinho.incrementa_item(
         Produto(**CHOCOLATE_BARRA_LINDT)
     )
-    carrinho.incrementa_produto(
-        CHOCOLATE_BARRA_LINDT['nome'],
+    nome_produto = CHOCOLATE_BARRA_LINDT['nome']
+    carrinho.incrementa_item(
+        nome_produto,
         -1 # -- valor negativo reduz a quantidade
     )
-    assert carrinho.unidades() == 0
+    item = carrinho.item_por_nome(nome_produto)
+    assert not item
+
+def test_falha_alterar_quantidade():
+    erro_previsto = False
+    carrinho = Carrinho()
+    try:
+        carrinho.incrementa_item('Xyz')
+    except ErroItemNaoEncontrado:
+        erro_previsto = True
+    assert erro_previsto
 
 def test_volume():
     pessoas = pessoas_mercado()
