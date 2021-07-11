@@ -32,7 +32,7 @@ class Usuario:
         for quantidade, produto in produtos_para_comprar:
             self.carrinho.incrementa_item(produto, quantidade)
 
-    def soma_pedido(self):
+    def fecha_pedido(self):
         total = self.carrinho.valor_total()
         if total < 100:
             entrega = API_Externa()
@@ -50,7 +50,7 @@ class Usuario:
         return total, frete
 
     def emite_relatorio(self, detalhado=False):
-        self.soma_pedido()
+        self.fecha_pedido()
         print('='*50)
         print(self.log)
         if detalhado:

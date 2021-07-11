@@ -47,7 +47,7 @@ def pessoas_mercado():
 def test_frete():
     valores_esperados = [(25, 26), (21, 22)]
     for pessoa, faixa in zip(pessoas_mercado(), valores_esperados):
-        total, frete = pessoa.soma_pedido()
+        total, frete = pessoa.fecha_pedido()
         if total < 100:
             assert pessoa.nome_serv_entrega == 'API_Externa'
         else:
@@ -104,7 +104,7 @@ def test_reajuste_preco():
     Sheila.faz_compra([
         (1, Produto(nome, valor, dimensoes))
     ])
-    total = Sheila.soma_pedido()[0]
+    total = Sheila.fecha_pedido()[0]
     assert total > 69.78 and total < 69.80
 
 def test_produto_em_branco():
@@ -133,6 +133,7 @@ EX4_TEST_CASES = [
     test_carrinho_vazio,
     test_carrinho_prod_duplicado,
     test_zerar_quantidade,
+    test_falha_alterar_quantidade,
     test_volume,
     test_reajuste_preco,
     test_produto_em_branco,

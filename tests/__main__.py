@@ -18,4 +18,6 @@ if __name__ == '__main__':
         func()
         print('\t...Ok!')
     print('-'*40)
-    print('Testes concluídos com sucesso!!')
+    print('{} testes concluídos com sucesso!!'.format(
+        len(cases)
+    ))
